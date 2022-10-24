@@ -34,6 +34,7 @@ int main(){
     std::cout<<"¡Autores: Cristobal Van Der Meer y Amparo Quiroz!"<<std::endl;
     std::string opcion1 = "";
     std::string opcion2 = "";
+    std::string opcion3 = "";
     trees::TreeNode * ubicacion = r;
     trees::TreeNode * ubica = r;
     while(opcion1.compare("exit")!=0){
@@ -91,7 +92,9 @@ int main(){
             }
         }
         if(opcion1.compare("find")==0){
-            
+            std::cin>>opcion2;
+            std::cin>>opcion3;
+            treeSO.find_nombre(opcion3,opcion2);
         }
         // treeSO.traverse();
     } 

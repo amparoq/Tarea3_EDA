@@ -134,13 +134,18 @@ void Tree::find_nombre(std::string val,std::string desde){
 	// if (en == false){
 	// 	std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
 	// }
+	bool en = false;
 	TreeNode * carp = find(desde);
 	TreeList * children = carp->getChildren();
 	TreeListNode * ptr = children->getHead();
 	while(ptr != nullptr){
 		if ((((ptr->getData())->getData())->getNombre()).compare(val) == 0){
-			//
+			std::cout<<"Se encontró "<<val<<" en "<<desde<<std::endl;
+			en = true;
 		}
+	}
+	if (en == false){
+		std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
 	}
 }
 
