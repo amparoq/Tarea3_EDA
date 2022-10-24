@@ -108,4 +108,40 @@ std::string Tree::getUbicacion(TreeNode * node){
 	return j.str();
 }
 
+//para el caso de que sea dentro hasta dentro de otras carpetas
+// bool Tree::find_nombre_rec(std::string val, TreeNode* node){
+// 	TreeNode* ans = nullptr;
+// 	bool encontrado = false;
+// 	if (node != nullptr){
+// 		if (((node->getData())->getNombre()).compare(val) == 0){
+// 			std::cout<<(node->getData())->getNombre()<<std::endl;
+// 			encontrado = true;
+// 		}
+// 		else{ // search in children
+// 			TreeList* childrenList = node->getChildren();
+// 			TreeListNode* ptr = childrenList->getHead();
+// 			while (ptr!=nullptr && ans == nullptr){
+// 				ans = find_rec(val, ptr->getData());
+// 				ptr = ptr->getNext();
+// 			}
+// 		}
+// 	}
+// 	return encontrado;
+// }
+
+void Tree::find_nombre(std::string val,std::string desde){
+	// bool en = find_rec(val, find(desde));
+	// if (en == false){
+	// 	std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
+	// }
+	TreeNode * carp = find(desde);
+	TreeList * children = carp->getChildren();
+	TreeListNode * ptr = children->getHead();
+	while(ptr != nullptr){
+		if ((((ptr->getData())->getData())->getNombre()).compare(val) == 0){
+			//
+		}
+	}
+}
+
 } /* namespace trees */

@@ -24,6 +24,8 @@ public:
 	TreeNode* find_rec(std::string val, TreeNode* node);
 	TreeNode* find(std::string val);
 	std::string getUbicacion(TreeNode *);
+	// bool find_nombre_rec(std::string val, TreeNode* node);
+	void find_nombre(std::string val,std::string desde);
 	void traverse_rec(TreeNode* node, int level);
 	void traverse(TreeNode * node);
 	virtual ~Tree();

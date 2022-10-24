@@ -8,11 +8,16 @@
 std::string filtrar_nombre(std::string path){
     int u = 0;
     int l = 0;
-    while(u<path.size()){
+    if(path.compare("/")!=0){
+       while(u<path.size()){
         if(path[u] == '/'){
             l = u+1;
         }
         u++;
+    } 
+    }
+    else{
+        return path;
     }
     return path.substr(l);
 }
@@ -50,11 +55,11 @@ int main(){
             std::cin>>opcion2;
             opcion2 = filtrar_nombre(opcion2);
             if(opcion2.compare(".")!=0)
-                ubicacion = treeSO.find(opcion2);
-            if(((ubicacion->getData())->getTipo())==0)
+                ubica = treeSO.find(opcion2);
+            if(((ubica->getData())->getTipo())==0)
                 std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
             else
-                ubicacion->printChildren();
+                ubica->printChildren();
         }
         if(opcion1.compare("mkdir")==0){
             std::cin>>opcion2;
@@ -74,6 +79,19 @@ int main(){
             else
                 ubica = treeSO.find(opcion2);
                 treeSO.traverse(ubica);
+        }
+        if(opcion1.compare("rm")==0){
+            ubica = treeSO.find(opcion2);
+            //archivo
+            if((ubica->getData())->getTipo()==0){
+                delete ubica;
+            }
+            else{
+                //ver como eliminar una carpeta y sus hijos
+            }
+        }
+        if(opcion1.compare("find")==0){
+            
         }
         // treeSO.traverse();
     } 
