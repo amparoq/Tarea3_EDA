@@ -46,10 +46,14 @@ int main(){
                 ubicacion = ubicacion->getParent();
             else{
                 ubica = treeSO.find(opcion2);
-                if(((ubica->getData())->getTipo())==0)
-                    std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
+                if(ubica!=nullptr){
+                    if(((ubica->getData())->getTipo())==0)
+                        std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
+                    else
+                        ubicacion = ubica;
+                }
                 else
-                    ubicacion = ubica;
+                    std::cout<<"No existe la carpeta especificada"<<std::endl;
             }
         }
         if(opcion1.compare("ls")==0){
@@ -57,10 +61,14 @@ int main(){
             opcion2 = filtrar_nombre(opcion2);
             if(opcion2.compare(".")!=0)
                 ubica = treeSO.find(opcion2);
-            if(((ubica->getData())->getTipo())==0)
-                std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
+            if(ubica!=nullptr){
+                if(((ubica->getData())->getTipo())==0)
+                    std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
+                else
+                    ubica->printChildren();
+            }
             else
-                ubica->printChildren();
+                std::cout<<"No existe la carpeta especificada"<<std::endl;
         }
         if(opcion1.compare("mkdir")==0){
             std::cin>>opcion2;
@@ -79,18 +87,21 @@ int main(){
                 treeSO.traverse(ubicacion);
             else
                 ubica = treeSO.find(opcion2);
-                treeSO.traverse(ubica);
+                if(ubica!=nullptr)
+                    treeSO.traverse(ubica);
+                else
+                    std::cout<<"No existe la carpeta/archivo especificado"<<std::endl;
         }
-        if(opcion1.compare("rm")==0){
-            ubica = treeSO.find(opcion2);
-            //archivo
-            if((ubica->getData())->getTipo()==0){
-                delete ubica;
-            }
-            else{
-                //ver como eliminar una carpeta y sus hijos
-            }
-        }
+        // if(opcion1.compare("rm")==0){
+        //     ubica = treeSO.find(opcion2);
+        //     //archivo
+        //     if((ubica->getData())->getTipo()==0){
+        //         delete ubica;
+        //     }
+        //     else{
+        //         //ver como eliminar una carpeta y sus hijos
+        //     }
+        // }
         if(opcion1.compare("find")==0){
             std::cin>>opcion2;
             std::cin>>opcion3;
@@ -100,5 +111,5 @@ int main(){
     } 
     return 0;
     //crear funcion delete en tree
-    //anteponerse a que puede no encontrar la carpeta o archivo (en ese caso debe avisar no hacer segmentation fault)
+    //deja de imprimir toda las direcciones de antes
 }
