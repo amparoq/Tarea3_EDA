@@ -84,6 +84,18 @@ Tree::~Tree() {
 	delete root;
 }
 
+void Tree::delete_item(TreeNode * node){
+	trees::TreeList * children = node->getChildren();
+	trees::TreeListNode * chN = children->getHead();
+	if(children != nullptr && chN->getNext() != nullptr){
+		delete_item(chN->getData());
+		delete_item((chN->getNext())->getData());
+	}
+	else
+		children->removeAll();
+
+}
+
 std::string Tree::getUbicacion(TreeNode * node){
 	trees::TreeNode * ptr = node;
 	std::vector<std::string> car;
@@ -110,28 +122,31 @@ std::string Tree::getUbicacion(TreeNode * node){
 }
 
 //para el caso de que sea dentro hasta dentro de otras carpetas
-bool Tree::find_nombre_rec(std::string val, TreeNode* node){
+TreeNode * Tree::find_nombre_rec(std::string val, TreeNode* node, bool * encontrado){
 	TreeNode* ans = nullptr;
-	bool encontrado = false;
 	if (node != nullptr){
 		if (((node->getData())->getNombre()).compare(val) == 0){
-			std::cout<<(node->getData())->getNombre()<<std::endl;
-			encontrado = true;
+			if((node->getData())->getTipo() == 1)
+				std::cout<<"Carpeta de nombre "<<(node->getData())->getNombre()<<" encontrada en "<<((node->getParent())->getData())->getNombre()<<std::endl;
+			else
+				std::cout<<"Archivo de nombre "<<(node->getData())->getNombre()<<" encontrada en "<<((node->getParent())->getData())->getNombre()<<std::endl;
+			*encontrado = true;
 		}
 		else{ // search in children
 			TreeList* childrenList = node->getChildren();
 			TreeListNode* ptr = childrenList->getHead();
-			while (ptr!=nullptr && ans == nullptr){
-				ans = find_rec(val, ptr->getData());
+			while (ptr!=nullptr){
+				ans = find_nombre_rec(val, ptr->getData(),encontrado);
 				ptr = ptr->getNext();
 			}
 		}
 	}
-	return encontrado;
+	return ans;
 }
 
 void Tree::find_nombre(std::string desde,std::string val){
-	bool en = find_rec(val, find_path(desde));
+	bool en = false;
+	TreeNode * ans = find_nombre_rec(val, find_path(desde),&en);
 	if (en == false){
 		std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
 	}
@@ -142,6 +157,9 @@ TreeNode * Tree::find_path(std::string path){
 	for(int i = 1; i<count_string(path,"/")+1;i++){
 		std::string substr = split(path,"/",i);
 		trees::TreeList * ch = ptr->getChildren();
+		if(path.compare("/") == 0){
+			return root;
+		}
 		if (ch != nullptr){
 			trees::TreeListNode * chN = ch->getHead();
 			if(chN == nullptr){
@@ -159,6 +177,9 @@ TreeNode * Tree::find_path(std::string path){
 		if (((ptr->getData())->getNombre()).compare(substr)!=0){
 			return nullptr;
 		}
+	}
+	if(count_string(path,"/")==0){
+		return find(path);
 	}
 	return ptr;
 }
