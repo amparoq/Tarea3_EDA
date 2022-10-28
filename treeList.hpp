@@ -23,7 +23,7 @@ public:
 	TreeListNode* getHead();
 	void insertFirst(TreeNode* treeNode);
 	void removeFirst();
-	void remove(std::string val);
+	void remove(TreeNode * node);
 	void removeAll();
 	bool isEmpty();
 	TreeNode* find(std::string val);

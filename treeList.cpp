@@ -37,11 +37,11 @@ void TreeList::removeFirst(){
 }
 
 
-void TreeList::remove(std::string val){
+void TreeList::remove(TreeNode * node){
 	TreeListNode* ptr = head;
 	TreeListNode* ptr_prev = nullptr;
 	while (ptr != nullptr){
-		if ((((ptr->getData())->getData())->getNombre()).compare(val)==0){
+		if (ptr->getData() == node){
 			//erase node
 			if (ptr_prev == nullptr) {
 				head = ptr->getNext();

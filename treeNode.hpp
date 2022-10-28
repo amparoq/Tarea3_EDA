@@ -30,6 +30,7 @@ public:
 	Item * getData();
 	TreeList* getChildren();
 	void printChildren();
+	void del_ch();
 	virtual ~TreeNode();
 };
 

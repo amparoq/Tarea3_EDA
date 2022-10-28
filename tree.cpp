@@ -85,15 +85,15 @@ Tree::~Tree() {
 }
 
 void Tree::delete_item(TreeNode * node){
-	trees::TreeList * children = node->getChildren();
-	trees::TreeListNode * chN = children->getHead();
-	if(children != nullptr && chN->getNext() != nullptr){
-		delete_item(chN->getData());
-		delete_item((chN->getNext())->getData());
+	if (node != nullptr){
+		TreeList* childrenList = node->getChildren();
+		TreeListNode* ptr = childrenList->getHead();
+		while (ptr!=nullptr){
+			delete_item(ptr->getData());
+			ptr = ptr->getNext();
+		}
+		node->del_ch();
 	}
-	else
-		children->removeAll();
-
 }
 
 std::string Tree::getUbicacion(TreeNode * node){

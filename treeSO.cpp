@@ -19,6 +19,7 @@ int main(){
     std::string opcion2 = "";
     std::string opcion3 = "";
     trees::TreeNode * ubicacion = r;
+    trees::TreeNode * ubicacion2;
     trees::TreeNode * ubica = r;
     bool instruccion_valida = true;
     while(opcion1.compare("exit")!=0){
@@ -122,17 +123,47 @@ int main(){
         }
         if(opcion1.compare("rm")==0){
             std::cin>>opcion2;
-            ubica = treeSO.find_path(opcion2);
-            if (ubica != nullptr){
-            //archivo
-                if((ubica->getData())->getTipo()==0){
-                    delete ubica;
+            if (opcion2.compare("/") != 0){
+                if(opcion2.compare(".")==0){
+                    ubica = ubicacion;
+                    ubicacion = ubicacion->getParent();
                 }
-                else{
-                    treeSO.delete_item(((ubica->getChildren())->getHead())->getData());
-                    ((ubica->getParent())->getChildren())->remove((ubica->getData())->getNombre());
+                if(opcion2.compare("..")==0){
+                    if (ubicacion->getParent() != nullptr){
+                        ubica = ubicacion->getParent();
+                        if (ubica->getParent() != nullptr)
+                            ubicacion = ubica->getParent();
+                        else
+                            std::cout<<"La carpeta que se intentó borrar es la principal, esta acción no está permitida"<<std::endl;
+                    }
+                    else
+                        std::cout<<"La carpeta que se intentó borrar es la principal, esta acción no está permitida"<<std::endl;
                 }
+                if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
+                    ubica = treeSO.find_path(opcion2);
+                if (ubica != nullptr){
+                //archivo
+                    if((ubica->getData())->getTipo()==0){
+                        delete ubica;
+                    }
+                    else{
+                        ubicacion2 = ubicacion;
+                        ubicacion = r;
+                        treeSO.delete_item(ubica);
+                        if(ubicacion2 == nullptr || ubicacion2 == ubica){
+                            ubicacion = ubica->getParent();
+                            trees::TreeNode * ubicacion2;
+                        }
+                        else
+                            ubicacion = ubicacion2;
+                        ((ubica->getParent())->getChildren())->remove(ubica);
+                    }
+                }
+                else
+                    std::cout<<"No se encontró la carpeta/archivo especificado"<<std::endl;
             }
+            else
+                std::cout<<"La carpeta que se intentó borrar es la principal, esta acción no está permitida"<<std::endl;
         }
         if(opcion1.compare("find")==0){
             std::cin>>opcion2;
@@ -149,9 +180,9 @@ int main(){
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
                 treeSO.find_nombre(opcion2,opcion3);
         }
-        if(opcion1.compare("cd")!=0 && opcion1.compare("ls")!=0 && opcion1.compare("mkdir")!=0 && opcion1.compare("mkfile")!=0 && opcion1.compare("tree")!=0 && opcion1.compare("rm")!=0 && opcion1.compare("find")!=0 && opcion1.compare("exit")!=0)
+        if(opcion1.compare("cd")!=0 && opcion1.compare("ls")!=0 && opcion1.compare("mkdir")!=0 && opcion1.compare("mkfile")!=0 && opcion1.compare("tree")!=0 && opcion1.compare("rm")!=0 && opcion1.compare("find")!=0 && opcion1.compare("exit")!=0){
             std::cout<<"Esa función no existe"<<std::endl;
-        // treeSO.traverse();
+        }
     } 
     return 0;
     //crear funcion delete en tree

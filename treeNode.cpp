@@ -43,6 +43,12 @@ TreeNode::~TreeNode() {
 	}
 }
 
+void TreeNode::del_ch(){
+	if (children != nullptr){
+		children->removeAll();
+	}
+}
+
 void TreeNode::printChildren(){
 	TreeListNode * ptr = children->getHead();
 	while(ptr != nullptr){
