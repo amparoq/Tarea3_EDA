@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include "split.hpp"
 
 namespace trees {
 
@@ -129,24 +130,37 @@ bool Tree::find_nombre_rec(std::string val, TreeNode* node){
 	return encontrado;
 }
 
-void Tree::find_nombre(std::string val,std::string desde){
-	bool en = find_rec(val, find(desde));
+void Tree::find_nombre(std::string desde,std::string val){
+	bool en = find_rec(val, find_path(desde));
 	if (en == false){
 		std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
 	}
-	// bool en = false;
-	// TreeNode * carp = find(desde);
-	// TreeList * children = carp->getChildren();
-	// TreeListNode * ptr = children->getHead();
-	// while(ptr != nullptr){
-	// 	if ((((ptr->getData())->getData())->getNombre()).compare(val) == 0){
-	// 		std::cout<<"Se encontró "<<val<<" en "<<desde<<std::endl;
-	// 		en = true;
-	// 	}
-	// }
-	// if (en == false){
-	// 	std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
-	// }
 }
 
+TreeNode * Tree::find_path(std::string path){
+	trees::TreeNode * ptr = root;
+	for(int i = 1; i<count_string(path,"/")+1;i++){
+		std::string substr = split(path,"/",i);
+		trees::TreeList * ch = ptr->getChildren();
+		if (ch != nullptr){
+			trees::TreeListNode * chN = ch->getHead();
+			if(chN == nullptr){
+				return nullptr;
+			}
+			while(chN != nullptr){
+				if((((chN->getData())->getData())->getNombre()).compare(substr)==0){
+					ptr = chN->getData();
+				}
+				chN = chN->getNext();
+			}
+		}
+		else
+			return nullptr;
+		if (((ptr->getData())->getNombre()).compare(substr)!=0){
+			return nullptr;
+		}
+	}
+	return ptr;
+}
+	
 } /* namespace trees */

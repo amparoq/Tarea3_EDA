@@ -5,26 +5,9 @@
 #include <iostream>
 #include <sstream>
 
-std::string filtrar_nombre(std::string path){
-    int u = 0;
-    int l = 0;
-    if(path.compare("/")!=0){
-       while(u<path.size()){
-        if(path[u] == '/'){
-            l = u+1;
-        }
-        u++;
-    } 
-    }
-    else{
-        return path;
-    }
-    return path.substr(l);
-}
-
 int main(){
     trees::Tree treeSO;
-    Item * root = new Item("/");
+    Item * root = new Item("/",1);
     trees::TreeNode * r = new trees::TreeNode(root);
     treeSO.setRoot(r);
     // treeSO.insert("hola","/");
@@ -37,13 +20,20 @@ int main(){
     std::string opcion3 = "";
     trees::TreeNode * ubicacion = r;
     trees::TreeNode * ubica = r;
+    bool instruccion_valida = true;
     while(opcion1.compare("exit")!=0){
         std::cout<<treeSO.getUbicacion(ubicacion);
         std::cin>>opcion1;
         if(opcion1.compare("cd")==0){
             std::cin>>opcion2;
-            if(opcion2.compare("..")==0)
-                ubicacion = ubicacion->getParent();
+            if(opcion2.compare("..")==0){
+                if(ubicacion->getParent()!=nullptr){
+                    ubicacion = ubicacion->getParent();
+                }
+                else{
+                    std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
+                }
+            }
             else{
                 ubica = treeSO.find(opcion2);
                 if(ubica!=nullptr){
@@ -58,9 +48,8 @@ int main(){
         }
         if(opcion1.compare("ls")==0){
             std::cin>>opcion2;
-            opcion2 = filtrar_nombre(opcion2);
             if(opcion2.compare(".")!=0)
-                ubica = treeSO.find(opcion2);
+                ubica = treeSO.find_path(opcion2);
             if(ubica!=nullptr){
                 if(((ubica->getData())->getTipo())==0)
                     std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
@@ -78,35 +67,48 @@ int main(){
         }
         if(opcion1.compare("mkfile")==0){
             std::cin>>opcion2;
-            Item * newItem = new Item(opcion2,0);
-            trees::TreeNode * newNode = new trees::TreeNode(newItem);
-            treeSO.insert(ubicacion,newNode);
+            std::cin>>opcion3;
+            ubica = treeSO.find_path(opcion2);
+            if(ubica!= nullptr){
+                Item * newItem = new Item(opcion3,0);
+                trees::TreeNode * newNode = new trees::TreeNode(newItem);
+                treeSO.insert(newNode,ubica);
+            }
+            else
+                std::cout<<"No existe la carpeta específicada"<<std::endl;
         }
         if(opcion1.compare("tree")==0){
             if(opcion2.compare(".")==0)
                 treeSO.traverse(ubicacion);
-            else
+            else{
+                std::cin>>opcion2;
                 ubica = treeSO.find(opcion2);
                 if(ubica!=nullptr)
                     treeSO.traverse(ubica);
                 else
                     std::cout<<"No existe la carpeta/archivo especificado"<<std::endl;
+            }
         }
         // if(opcion1.compare("rm")==0){
         //     ubica = treeSO.find(opcion2);
+        //     if (ubica != nullptr){
         //     //archivo
-        //     if((ubica->getData())->getTipo()==0){
-        //         delete ubica;
-        //     }
-        //     else{
-        //         //ver como eliminar una carpeta y sus hijos
+        //         if((ubica->getData())->getTipo()==0){
+        //             delete ubica;
+        //         }
+        //         else{
+        //             ubicacion = ubicacion->getParent();
+        //             treeSO.delete_item(ubica);
+        //         }
         //     }
         // }
         if(opcion1.compare("find")==0){
             std::cin>>opcion2;
             std::cin>>opcion3;
-            treeSO.find_nombre(opcion3,opcion2);
+            treeSO.find_nombre(opcion2,opcion3);
         }
+        if(opcion1.compare("cd")!=0 && opcion1.compare("ls")!=0 && opcion1.compare("mkdir")!=0 && opcion1.compare("mkfile")!=0 && opcion1.compare("tree")!=0 && opcion1.compare("rm")!=0 && opcion1.compare("find")!=0 && opcion1.compare("exit")!=0)
+            std::cout<<"Esa función no existe"<<std::endl;
         // treeSO.traverse();
     } 
     return 0;

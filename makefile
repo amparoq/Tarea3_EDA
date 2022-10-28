@@ -1,13 +1,13 @@
 CC = g++
 std = -std=c++11
 
-treeSO: treeSO.o tree.o treeList.o treeListNode.o treeNode.o Item.o
-	$(CC) treeSO.o tree.o treeList.o treeListNode.o treeNode.o Item.o -o treeSO
+treeSO: treeSO.o tree.o treeList.o treeListNode.o treeNode.o Item.o split.o
+	$(CC) treeSO.o tree.o treeList.o treeListNode.o treeNode.o Item.o split.o -o treeSO
 
 treeSO.o: treeSO.cpp
 	$(CC) -c $(std) treeSO.cpp -o treeSO.o
 
-tree.o: tree.cpp tree.hpp
+tree.o: tree.cpp tree.hpp split.hpp
 	$(CC) -c $(std) tree.cpp -o tree.o
 
 treeList.o: treeList.cpp treeList.hpp
@@ -21,6 +21,9 @@ treeNode.o: treeNode.cpp treeNode.hpp
 
 Item.o:
 	$(CC) -c $(std) Item.cpp -o Item.o
+
+split.o:
+	$(CC) -c $(std) split.cpp -o split.o
 
 run:
 	./treeSO

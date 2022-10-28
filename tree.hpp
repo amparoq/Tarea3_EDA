@@ -23,11 +23,16 @@ public:
 	void insert(std::string child, std::string parent);
 	TreeNode* find_rec(std::string val, TreeNode* node);
 	TreeNode* find(std::string val);
+	TreeNode* find_dir_rec(std::string val, TreeNode* node);
+	TreeNode* find_dir(std::string val);
+	// void delete_item_rec(TreeNode * node);
+	// void delete_item(TreeNode * node);
 	std::string getUbicacion(TreeNode *);
 	bool find_nombre_rec(std::string val, TreeNode* node);
 	void find_nombre(std::string val,std::string desde);
 	void traverse_rec(TreeNode* node, int level);
 	void traverse(TreeNode * node);
+	TreeNode * find_path(std::string path);
 	virtual ~Tree();
 };
 
