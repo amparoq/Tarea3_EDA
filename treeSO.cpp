@@ -80,13 +80,19 @@ int main(){
             if(opcion2.compare(".")==0){
                 Item * newItem = new Item(opcion3,0);
                 trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                treeSO.insert(newNode,ubicacion);
+                if((ubicacion->getData())->getTipo() != 0)
+                    treeSO.insert(newNode,ubicacion);
+                else
+                    std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
             }
             if(opcion2.compare("..")==0){
                 if(ubicacion->getParent()!=nullptr){
                     Item * newItem = new Item(opcion3,0);
                     trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                    treeSO.insert(newNode,ubicacion->getParent());
+                    if(((ubicacion->getParent())->getData())->getTipo() != 0)
+                        treeSO.insert(newNode,ubicacion->getParent());
+                    else
+                        std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
                 }
                 else
                     std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
@@ -97,7 +103,10 @@ int main(){
                 if(ubica!= nullptr){
                     Item * newItem = new Item(opcion3,0);
                     trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                    treeSO.insert(newNode,ubica);
+                    if(((ubicacion->getParent())->getData())->getTipo() != 0)
+                        treeSO.insert(newNode,ubica);
+                    else
+                        std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
                 }
                 else
                     std::cout<<"No existe la carpeta específicada"<<std::endl;
@@ -105,8 +114,12 @@ int main(){
         }
         if(opcion1.compare("tree")==0){
             std::cin>>opcion2;
-            if(opcion2.compare(".")==0)
-                treeSO.traverse(ubicacion);
+            if(opcion2.compare(".")==0){
+                if((ubicacion->getData())->getTipo()!=0)
+                    treeSO.traverse(ubicacion);
+                else
+                    std::cout<<"El nombre seleccionado es un archivo"<<std::endl;
+            }
             if(opcion2.compare("..")==0){
                 if(ubicacion->getParent()!=nullptr)
                     treeSO.traverse(ubicacion->getParent());
@@ -115,8 +128,12 @@ int main(){
             }
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0){
                 ubica = treeSO.find_path(opcion2);
-                if(ubica!=nullptr)
-                    treeSO.traverse(ubica);
+                if(ubica!=nullptr){
+                    if((ubica->getData())->getTipo()!=0)
+                        treeSO.traverse(ubica);
+                    else
+                        std::cout<<"El nombre seleccionado es un archivo"<<std::endl;
+                }
                 else
                     std::cout<<"No existe la carpeta/archivo especificado"<<std::endl;
             }
