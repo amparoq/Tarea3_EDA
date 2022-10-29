@@ -104,6 +104,7 @@ int main(){
             }
         }
         if(opcion1.compare("tree")==0){
+            std::cin>>opcion2;
             if(opcion2.compare(".")==0)
                 treeSO.traverse(ubicacion);
             if(opcion2.compare("..")==0){
@@ -113,7 +114,6 @@ int main(){
                     std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
             }
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0){
-                std::cin>>opcion2;
                 ubica = treeSO.find_path(opcion2);
                 if(ubica!=nullptr)
                     treeSO.traverse(ubica);
