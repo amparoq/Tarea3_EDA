@@ -144,7 +144,7 @@ int main(){
                 if (ubica != nullptr){
                 //archivo
                     if((ubica->getData())->getTipo()==0){
-                        delete ubica;
+                        ((ubica->getParent())->getChildren())->remove(ubica);
                     }
                     else{
                         ubicacion2 = ubicacion;
