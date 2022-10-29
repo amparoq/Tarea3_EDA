@@ -150,12 +150,12 @@ int main(){
                         ubicacion2 = ubicacion;
                         ubicacion = r;
                         treeSO.delete_item(ubica);
-                        if(ubicacion2 == nullptr || ubicacion2 == ubica){
+                        if(treeSO.find_path((ubicacion2->getData())->getNombre()) == nullptr || ubicacion2 == ubica){
                             ubicacion = ubica->getParent();
-                            trees::TreeNode * ubicacion2;
                         }
-                        else
+                        else{
                             ubicacion = ubicacion2;
+                        }
                         ((ubica->getParent())->getChildren())->remove(ubica);
                     }
                 }
