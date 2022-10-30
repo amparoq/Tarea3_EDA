@@ -70,29 +70,67 @@ int main(){
         }
         if(opcion1.compare("mkdir")==0){
             std::cin>>opcion2;
-            Item * newItem = new Item(opcion2,1);
-            trees::TreeNode * newNode = new trees::TreeNode(newItem);
-            treeSO.insert(newNode,ubicacion);
+            trees::TreeListNode * ptr = ((ubicacion->getChildren())->getHead());
+            bool nombre = false;
+            while(ptr!=nullptr){
+                if((((ptr->getData())->getData())->getNombre()).compare(opcion2) == 0){
+                    nombre = true;
+                }
+                ptr = ptr->getNext();
+            }
+            if (nombre == false){
+                Item * newItem = new Item(opcion2,1);
+                trees::TreeNode * newNode = new trees::TreeNode(newItem);
+                treeSO.insert(newNode,ubicacion);
+            }
+            else
+                std::cout<<"Ya existe una carpeta o archivo con el nombre "<<opcion2<<" en la carpeta "<<(ubicacion->getData())->getNombre()<<std::endl;
         }
         if(opcion1.compare("mkfile")==0){
             std::cin>>opcion2;
             std::cin>>opcion3;
             if(opcion2.compare(".")==0){
-                Item * newItem = new Item(opcion3,0);
-                trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                if((ubicacion->getData())->getTipo() != 0)
-                    treeSO.insert(newNode,ubicacion);
+                trees::TreeListNode * ptr = ((ubicacion->getChildren())->getHead());
+                bool nombre = false;
+                while(ptr!=nullptr){
+                    if((((ptr->getData())->getData())->getNombre()).compare(opcion3) == 0){
+                        nombre = true;
+                    }
+                    ptr = ptr->getNext();
+                }
+                if(nombre == false){
+                    if((ubicacion->getData())->getTipo() != 0){
+                        Item * newItem = new Item(opcion3,0);
+                        trees::TreeNode * newNode = new trees::TreeNode(newItem);
+                        treeSO.insert(newNode,ubicacion);
+                    }
+                    else
+                        std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
+                }
                 else
-                    std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
+                   std::cout<<"Ya existe una carpeta o archivo con el nombre "<<opcion3<<" en la carpeta "<<(ubicacion->getData())->getNombre()<<std::endl; 
             }
             if(opcion2.compare("..")==0){
                 if(ubicacion->getParent()!=nullptr){
-                    Item * newItem = new Item(opcion3,0);
-                    trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                    if(((ubicacion->getParent())->getData())->getTipo() != 0)
-                        treeSO.insert(newNode,ubicacion->getParent());
+                    trees::TreeListNode * ptr = (((ubicacion->getParent())->getChildren())->getHead());
+                    bool nombre = false;
+                    while(ptr!=nullptr){
+                        if((((ptr->getData())->getData())->getNombre()).compare(opcion3) == 0){
+                            nombre = true;
+                        }
+                        ptr = ptr->getNext();
+                    }
+                    if(nombre == false){
+                        if(((ubicacion->getParent())->getData())->getTipo() != 0){
+                            Item * newItem = new Item(opcion3,0);
+                            trees::TreeNode * newNode = new trees::TreeNode(newItem);
+                            treeSO.insert(newNode,ubicacion->getParent());
+                        }
+                        else
+                            std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
+                    }
                     else
-                        std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
+                        std::cout<<"Ya existe una carpeta o archivo con el nombre "<<opcion3<<" en la carpeta "<<((ubicacion->getParent())->getData())->getNombre()<<std::endl;
                 }
                 else
                     std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
@@ -100,14 +138,26 @@ int main(){
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
             {    
                 ubica = treeSO.find_path(opcion2);
-                std::cout<<ubica->getData()->getNombre()<<std::endl;
                 if(ubica!= nullptr){
-                    Item * newItem = new Item(opcion3,0);
-                    trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                    if((ubica->getData())->getTipo() != 0)
-                        treeSO.insert(newNode,ubica);
+                    trees::TreeListNode * ptr = ((ubica->getChildren())->getHead());
+                    bool nombre = false;
+                    while(ptr!=nullptr){
+                        if((((ptr->getData())->getData())->getNombre()).compare(opcion3) == 0){
+                            nombre = true;
+                        }
+                        ptr = ptr->getNext();
+                    }
+                    if(nombre == false){
+                        if((ubica->getData())->getTipo() != 0){
+                            Item * newItem = new Item(opcion3,0);
+                            trees::TreeNode * newNode = new trees::TreeNode(newItem);
+                            treeSO.insert(newNode,ubica);
+                        }
+                        else
+                            std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
+                    }
                     else
-                        std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
+                        std::cout<<"Ya existe una carpeta o archivo con el nombre "<<opcion3<<" en la carpeta "<<(ubica->getData())->getNombre()<<std::endl;
                 }
                 else
                     std::cout<<"No existe la carpeta específicada"<<std::endl;

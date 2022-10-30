@@ -129,16 +129,15 @@ TreeNode * Tree::find_nombre_rec(std::string val, TreeNode* node, bool * encontr
 			if((node->getData())->getTipo() == 1)
 				std::cout<<"Carpeta de nombre "<<(node->getData())->getNombre()<<" encontrada en "<<((node->getParent())->getData())->getNombre()<<std::endl;
 			else
-				std::cout<<"Archivo de nombre "<<(node->getData())->getNombre()<<" encontrada en "<<((node->getParent())->getData())->getNombre()<<std::endl;
+				std::cout<<"Archivo de nombre "<<(node->getData())->getNombre()<<" encontrado en "<<((node->getParent())->getData())->getNombre()<<std::endl;
 			*encontrado = true;
 		}
-		else{ // search in children
-			TreeList* childrenList = node->getChildren();
-			TreeListNode* ptr = childrenList->getHead();
-			while (ptr!=nullptr){
-				ans = find_nombre_rec(val, ptr->getData(),encontrado);
-				ptr = ptr->getNext();
-			}
+		// search in children
+		TreeList* childrenList = node->getChildren();
+		TreeListNode* ptr = childrenList->getHead();
+		while (ptr!=nullptr){
+			ans = find_nombre_rec(val, ptr->getData(),encontrado);
+			ptr = ptr->getNext();
 		}
 	}
 	return ans;
@@ -146,7 +145,13 @@ TreeNode * Tree::find_nombre_rec(std::string val, TreeNode* node, bool * encontr
 
 void Tree::find_nombre(std::string desde,std::string val){
 	bool en = false;
-	TreeNode * ans = find_nombre_rec(val, find_path(desde),&en);
+	TreeNode * des = find_path(desde);
+	if (des != nullptr){
+		if (des->getChildren() != nullptr)
+			TreeNode * ans = find_nombre_rec(val,((des->getChildren())->getHead())->getData(),&en);
+	}
+	else
+		std::cout<<"Carpeta "<<desde<<" no encontrada"<<std::endl;
 	if (en == false){
 		std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
 	}
