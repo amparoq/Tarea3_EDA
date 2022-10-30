@@ -100,10 +100,11 @@ int main(){
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
             {    
                 ubica = treeSO.find_path(opcion2);
+                std::cout<<ubica->getData()->getNombre()<<std::endl;
                 if(ubica!= nullptr){
                     Item * newItem = new Item(opcion3,0);
                     trees::TreeNode * newNode = new trees::TreeNode(newItem);
-                    if(((ubicacion->getParent())->getData())->getTipo() != 0)
+                    if((ubica->getData())->getTipo() != 0)
                         treeSO.insert(newNode,ubica);
                     else
                         std::cout<<"No se puede crear un archivo dentro de otro archivo"<<std::endl;
