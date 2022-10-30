@@ -27,7 +27,7 @@ public:
 	TreeNode* find_dir(std::string val);
 	void delete_item(TreeNode * node);
 	std::string getUbicacion(TreeNode *);
-	TreeNode * find_nombre_rec(std::string val, TreeNode* node, bool * en);
+	void find_nombre_rec(std::string val, TreeNode* node, bool * en, TreeNode* node_i);
 	void find_nombre(std::string val,std::string desde);
 	void traverse_rec(TreeNode* node, int level);
 	void traverse(TreeNode * node);

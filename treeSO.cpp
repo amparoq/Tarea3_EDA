@@ -10,9 +10,6 @@ int main(){
     Item * root = new Item("/",1);
     trees::TreeNode * r = new trees::TreeNode(root);
     treeSO.setRoot(r);
-    // treeSO.insert("hola","/");
-    // treeSO.insert("gr","hola");
-    // std::cout<<treeSO.getUbicacion("gr")<<std::endl;
     std::cout<<"¡Bienvenido a TreeSO!"<<std::endl;
     std::cout<<"¡Autores: Cristobal Van Der Meer y Amparo Quiroz!"<<std::endl;
     std::string opcion1 = "";
@@ -21,7 +18,6 @@ int main(){
     trees::TreeNode * ubicacion = r;
     trees::TreeNode * ubicacion2;
     trees::TreeNode * ubica = r;
-    bool instruccion_valida = true;
     while(opcion1.compare("exit")!=0){
         std::cout<<treeSO.getUbicacion(ubicacion);
         std::cin>>opcion1;
@@ -54,8 +50,11 @@ int main(){
             if(opcion2.compare(".")!=0){
                 if(opcion2.compare("..")!=0)
                     ubica = treeSO.find_path(opcion2);
-                else
-                    ubica = ubica->getParent();
+                else{
+                    ubica = ubicacion->getParent();
+                    if(ubicacion->getParent() == nullptr)
+                        std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
+                }
             }
             else
                 ubica = ubicacion;
@@ -65,8 +64,9 @@ int main(){
                 else
                     ubica->printChildren();
             }
-            else
+            else{
                 std::cout<<"No existe la carpeta especificada"<<std::endl;
+            }
         }
         if(opcion1.compare("mkdir")==0){
             std::cin>>opcion2;
@@ -253,6 +253,4 @@ int main(){
         }
     } 
     return 0;
-    //crear funcion delete en tree
-    //deja de imprimir toda las direcciones de antes
 }

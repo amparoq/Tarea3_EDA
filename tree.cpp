@@ -122,33 +122,38 @@ std::string Tree::getUbicacion(TreeNode * node){
 }
 
 //para el caso de que sea dentro hasta dentro de otras carpetas
-TreeNode * Tree::find_nombre_rec(std::string val, TreeNode* node, bool * encontrado){
-	TreeNode* ans = nullptr;
+void Tree::find_nombre_rec(std::string val, TreeNode* node, bool * encontrado,TreeNode * node_i){
 	if (node != nullptr){
 		if (((node->getData())->getNombre()).compare(val) == 0){
-			if((node->getData())->getTipo() == 1)
-				std::cout<<"Carpeta de nombre "<<(node->getData())->getNombre()<<" encontrada en "<<((node->getParent())->getData())->getNombre()<<std::endl;
-			else
-				std::cout<<"Archivo de nombre "<<(node->getData())->getNombre()<<" encontrado en "<<((node->getParent())->getData())->getNombre()<<std::endl;
-			*encontrado = true;
+			if(node != node_i){
+				if((node->getData())->getTipo() == 1)
+					std::cout<<"Carpeta de nombre "<<(node->getData())->getNombre()<<" encontrada en "<<((node->getParent())->getData())->getNombre()<<std::endl;
+				else
+					std::cout<<"Archivo de nombre "<<(node->getData())->getNombre()<<" encontrado en "<<((node->getParent())->getData())->getNombre()<<std::endl;
+				*encontrado = true;
+			}
 		}
-		// search in children
 		TreeList* childrenList = node->getChildren();
 		TreeListNode* ptr = childrenList->getHead();
 		while (ptr!=nullptr){
-			ans = find_nombre_rec(val, ptr->getData(),encontrado);
+			find_nombre_rec(val, ptr->getData(),encontrado,node_i);
 			ptr = ptr->getNext();
 		}
+
 	}
-	return ans;
 }
 
 void Tree::find_nombre(std::string desde,std::string val){
 	bool en = false;
 	TreeNode * des = find_path(desde);
 	if (des != nullptr){
-		if (des->getChildren() != nullptr)
-			TreeNode * ans = find_nombre_rec(val,((des->getChildren())->getHead())->getData(),&en);
+		if ((des->getData())->getTipo() == 0){
+			std::cout<<"El lugar de busqueda es un archivo, debe ser una carpeta"<<std::endl;
+			en = true;
+		}
+		else{
+			find_nombre_rec(val,des,&en,des);
+		}
 	}
 	else
 		std::cout<<"Carpeta "<<desde<<" no encontrada"<<std::endl;
