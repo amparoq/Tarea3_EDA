@@ -195,7 +195,16 @@ TreeNode * Tree::find_path(std::string path){
 }
 
 TreeNode * Tree::cd_find(std::string n, TreeNode * desde){
-	TreeNode* ans = find_rec(n, desde);
+	TreeList* children = desde->getChildren();
+	TreeNode * ans = nullptr;
+	if(children != nullptr){
+		TreeListNode* ptr = children->getHead();
+		while(ptr != nullptr){
+			if((((ptr->getData())->getData())->getNombre()).compare(n)==0)
+				ans = ptr->getData();
+			ptr = ptr->getNext();
+		}
+	}
 	return ans;
 }
 
