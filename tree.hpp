@@ -32,6 +32,7 @@ public:
 	void traverse_rec(TreeNode* node, int level);
 	void traverse(TreeNode * node);
 	TreeNode * find_path(std::string path);
+	TreeNode * cd_find(std::string n, TreeNode * desde);
 	virtual ~Tree();
 };
 

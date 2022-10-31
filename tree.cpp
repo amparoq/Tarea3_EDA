@@ -193,5 +193,10 @@ TreeNode * Tree::find_path(std::string path){
 	}
 	return ptr;
 }
-	
+
+TreeNode * Tree::cd_find(std::string n, TreeNode * desde){
+	TreeNode* ans = find_rec(n, desde);
+	return ans;
+}
+
 } /* namespace trees */
