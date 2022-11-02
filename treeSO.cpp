@@ -33,7 +33,10 @@ int main(){
             }
             else{
                 if(opcion2.compare(".")!=0){
-                    ubica = treeSO.cd_find(opcion2,ubicacion);
+                    if(opcion2[0] == '/')
+                        ubica = treeSO.find_path(opcion2);
+                    else
+                        ubica = treeSO.cd_find(opcion2,ubicacion);
                     if(ubica!=nullptr){
                         if(((ubica->getData())->getTipo())==0)
                             std::cout<<"El archivo específicado no es una carpeta"<<std::endl;
