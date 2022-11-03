@@ -51,8 +51,12 @@ int main(){
         if(opcion1.compare("ls")==0){
             std::cin>>opcion2;
             if(opcion2.compare(".")!=0){
-                if(opcion2.compare("..")!=0)
-                    ubica = treeSO.find_path(opcion2);
+                if(opcion2.compare("..")!=0){
+                    if(opcion2[0] == '/')
+                        ubica = treeSO.find_path(opcion2);
+                    else
+                        ubica = treeSO.cd_find(opcion2,ubicacion);
+                }
                 else{
                     ubica = ubicacion->getParent();
                     if(ubicacion->getParent() == nullptr)
@@ -140,7 +144,10 @@ int main(){
             }
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
             {    
-                ubica = treeSO.find_path(opcion2);
+                if(opcion2[0] == '/')
+                    ubica = treeSO.find_path(opcion2);
+                else
+                    ubica = treeSO.cd_find(opcion2,ubicacion);
                 if(ubica!= nullptr){
                     trees::TreeListNode * ptr = ((ubica->getChildren())->getHead());
                     bool nombre = false;
@@ -181,7 +188,10 @@ int main(){
                     std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
             }
             if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0){
-                ubica = treeSO.find_path(opcion2);
+                if(opcion2[0] == '/')
+                    ubica = treeSO.find_path(opcion2);
+                else
+                    ubica = treeSO.cd_find(opcion2,ubicacion);
                 if(ubica!=nullptr){
                     if((ubica->getData())->getTipo()!=0)
                         treeSO.traverse(ubica);
@@ -210,8 +220,12 @@ int main(){
                     else
                         std::cout<<"La carpeta que se intentó borrar es la principal, esta acción no está permitida"<<std::endl;
                 }
-                if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
-                    ubica = treeSO.find_path(opcion2);
+                if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0){
+                    if(opcion2[0] == '/')
+                        ubica = treeSO.find_path(opcion2);
+                    else
+                        ubica = treeSO.cd_find(opcion2,ubicacion);
+                }
                 if (ubica != nullptr){
                 //archivo
                     if((ubica->getData())->getTipo()==0){
