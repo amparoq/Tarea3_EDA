@@ -143,9 +143,9 @@ void Tree::find_nombre_rec(std::string val, TreeNode* node, bool * encontrado,Tr
 	}
 }
 
-void Tree::find_nombre(std::string desde,std::string val){
+void Tree::find_nombre(TreeNode * desde,std::string val){
 	bool en = false;
-	TreeNode * des = find_path(desde);
+	TreeNode * des = desde;
 	if (des != nullptr){
 		if ((des->getData())->getTipo() == 0){
 			std::cout<<"El lugar de busqueda es un archivo, debe ser una carpeta"<<std::endl;
@@ -158,7 +158,7 @@ void Tree::find_nombre(std::string desde,std::string val){
 	else
 		std::cout<<"Carpeta "<<desde<<" no encontrada"<<std::endl;
 	if (en == false){
-		std::cout<<"No se encontró "<<val<<" en "<<desde<<std::endl;
+		std::cout<<"No se encontró "<<val<<" en "<<(desde->getData())->getNombre()<<std::endl;
 	}
 }
 

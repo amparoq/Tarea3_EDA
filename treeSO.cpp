@@ -254,16 +254,25 @@ int main(){
             std::cin>>opcion2;
             std::cin>>opcion3;
             if((opcion2.compare("."))==0){
-                treeSO.find_nombre(((ubicacion->getData())->getNombre()),opcion3);
+                treeSO.find_nombre(ubicacion,opcion3);
             }
             if((opcion2.compare(".."))==0){
                 if(ubicacion->getParent() != nullptr)
-                    treeSO.find_nombre((((ubicacion->getParent())->getData())->getNombre()),opcion3);
+                    treeSO.find_nombre((ubicacion->getParent()),opcion3);
                 else
                     std::cout<<"La carpeta especificada / es la última y, por tanto, no se puede ir más atrás"<<std::endl;
             }
-            if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0)
-                treeSO.find_nombre(opcion2,opcion3);
+            if(opcion2.compare(".")!=0 && opcion2.compare("..")!=0){
+                ubica = nullptr;
+                if(opcion2[0] == '/')
+                    ubica = treeSO.find_path(opcion2);
+                else
+                    ubica = treeSO.cd_find(opcion2,ubicacion);
+                if(ubica != nullptr)
+                    treeSO.find_nombre(ubica,opcion3);
+                else
+                    std::cout<<"Carpeta "<<opcion2<<" no encontrada"<<std::endl;
+            }
         }
         if(opcion1.compare("cd")!=0 && opcion1.compare("ls")!=0 && opcion1.compare("mkdir")!=0 && opcion1.compare("mkfile")!=0 && opcion1.compare("tree")!=0 && opcion1.compare("rm")!=0 && opcion1.compare("find")!=0 && opcion1.compare("exit")!=0){
             std::cout<<"Esa función no existe"<<std::endl;
